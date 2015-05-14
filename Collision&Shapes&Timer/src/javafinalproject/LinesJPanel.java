@@ -13,6 +13,7 @@ public class LinesJPanel extends JPanel{
     Timer animationTimer = new Timer( ANIMATION_DELAY, new TimerHandler() ); // timer so we can paint over and over
     Color colorArray[] = {Color.RED,Color.GREEN,Color.BLUE,Color.YELLOW,Color.BLACK,Color.MAGENTA};// array constructor
    
+    
     private Oval myOval = new Oval(this); //make a new oval for this frame
     private Oval myOval2 = new Oval(this); //make a new oval for this frame
     private Star mystar = new Star(this); // make a new star for this frame
@@ -25,13 +26,13 @@ public class LinesJPanel extends JPanel{
      }// end constructor
      
     @Override
-    public void paintComponent(Graphics g)
+    public void paintComponent(Graphics gfx)
     {        
-        super.paintComponent(g);
+        super.paintComponent(gfx);
         this.setBackground(Color.WHITE);
-         this.myOval.draw(g); // this paints the circle
-         this.myOval2.draw(g);
-        this.mystar.paint(g); // this paints the star
+       this.myOval.draw(gfx); // this paints the circle
+       this.myOval2.draw(gfx);   // this paints the circle
+       this.mystar.draw(gfx); // this paints the star
 
     }//end method paintComponent
     
@@ -42,7 +43,6 @@ public class LinesJPanel extends JPanel{
         @Override
         public void actionPerformed( ActionEvent actionEvent )
         {
-            
             repaint();
         } 
     }// end class TimerHandler

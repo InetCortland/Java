@@ -9,60 +9,83 @@ import javax.swing.JPanel;
 public class Star 
 {
     
-    private int x = 0;
-    private int y=0;
+
     // An array with all of the points for our star
-    double points[][] = { 
+    double[][] starPoints = { 
         { 55, 0 }, { 67, 36 }, { 109, 36 }, { 73, 54 }, 
         { 83, 96 }, { 55, 72 }, { 27, 96 }, { 37, 54 }, 
         { 1, 36 }, { 43, 36 }, { 43, 36 } 
     };
     
-    // Starting speeds
-    int dx =1;
-    int dy=1;
-    public int intHeight=0; // Height of the frame
-    public int intWidth=0; // width of the frame
-    private JPanel box;
- 
-   
+    // Velocitys
+    int xVelocity =1;
+    int yVelocity=1;
     
+    private int xBasePoint = 0; // Starting X
+    private int yBasePoint = 0; // Starting Y
     
+    public int intHeight=0; // Height of the window frame
+    public int intWidth=0; // width of the window frame
+    private final JPanel screenSize;
    //  Dimension d = box.getSize();
      
- public Star(JPanel b) 
+
+    
+    
+    
+ public Star(JPanel passedScreensize) 
 	{    
-            box = b; //we make this so we can check to see how large the frame is
+            
+            screenSize = passedScreensize; //we make this so we can check to see how large the frame is
  	}//end star constructor
 
-    public void paint(Graphics g) {
+public void draw(Graphics gfx) {
+        Graphics2D g2d = (Graphics2D)gfx;
         
-        intHeight= box.getHeight();
-        intWidth=box.getWidth();
-        Graphics2D g2d = (Graphics2D)g;
-	x += dx; // adding to x
-	y += dy;  // adding to y
+        
+        
+        intHeight= screenSize.getHeight();
+        intWidth=screenSize.getWidth();
+
+	xBasePoint += xVelocity; // adding to x
+	yBasePoint += yVelocity;  // adding to y
                   
                 
-                // Star movement
-        	if (x < 0){ 
-                   x = 0; dx = -dx;}
-		if (x + 100 >= intWidth){
-                    x = intWidth - 100; dx = -dx; }
-                if (y < 0){
-                    y = 0; dy = -dy;}
- 		if (y + 100 >= intHeight){
-                    y = intHeight - 100; dy = -dy;}
+        // Star movement
+        if (xBasePoint < 0)
+            { 
+               xBasePoint = 0; 
+               xVelocity = -xVelocity;
+            }
+        if (xBasePoint + 100 >= intWidth)
+            {
+                xBasePoint = intWidth - 100;
+                xVelocity = -xVelocity; 
+            }
+        if (yBasePoint < 0)
+            {
+                yBasePoint = 0;
+                yVelocity = -yVelocity;
+            }
+        if (yBasePoint + 100 >= intHeight){
+            yBasePoint = intHeight - 100;
+            yVelocity = -yVelocity;
+        }
        
+            // general path
+    GeneralPath star = new GeneralPath();
         
-        GeneralPath star = new GeneralPath();
-        star.moveTo(points[0][0], points[0][1]);
-      
-        g2d.translate(x,y); // make all points move to the point
+        star.moveTo(starPoints[0][0], starPoints[0][1]);
+        
+        g2d.translate(xBasePoint,yBasePoint); // make all points move to the point
 
-        for (int k = 1; k < points.length; k++) // draw our shape
-         star.lineTo(points[k][0], points[k][1]);
+        for (int k = 1; k < starPoints.length; k++) // draw our shape
+        {
+        star.lineTo(starPoints[k][0], starPoints[k][1]);
+        }
+        
         star.closePath();
         g2d.fill(star);
+       
     }
 }
